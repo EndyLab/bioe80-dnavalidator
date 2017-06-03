@@ -7,7 +7,7 @@ This file creates your application.
 """
 
 import os
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 
 import pandas as pd
@@ -168,6 +168,7 @@ def dna():
     student = get_student(suid)
 
     if not student:
+        flash("Your SUID, {}, is unknown".format(suid), 'danger')
         return redirect(url_for('home'))
 
     name, genes, aas = student
@@ -201,6 +202,7 @@ def dna_submit():
     db.session.add(sub)
     db.session.commit()
 
+    flash("Your sequences were successfully submitted", "success")
     return render_template('dna.html', suid=suid, name=name, genes=genes, okay=okays, dna=dnas, feedback=gene_feedback)
 
 @app.route('/about/')
