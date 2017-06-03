@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <h2>Welcome {{ name }}</h2>
+
+    <p>You have been assigned genes <strong>{{ genes['JCVI-G1'] }}</strong>, <strong>{{ genes['JCVI-G2'] }}</strong>, and <strong>{{ genes['JCVI-GU'] }}</strong>. Please enter the DNA sequence for each JCVI gene, its functional analogs, and any extra credit genes below. If you are not submitting a sequence for a gene (for example, the <em>E. coli</em> equivalent of an unknown gene), then leave the submission box blank.</p>
+
+    <p>This tool will check your sequences and provide feedback if anything needs to be changed. You can check and submit sequences as many times as you like: we will use the last version you submitted.</p>
+  </div>
+</div>
+
+<div class="row">
+  <form action="/dna" method="post">
+  <input type="hidden" name="suid" value="{{ suid }}">
+
+  <div class="col-md-6 col-md-offset-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">JCVI Genes</h3>
+      </div>
+
+      {% macro geneinput(name, label) -%}
+      <div class="form-group {% if okay[name] %}has-success{% elif name in feedback %}has-error{% endif %}">
+        <label for="{{ name }}">{{ label }}</label>
+        <textarea class="form-control" id="{{ name }}" name="{{ name }}" rows="3">{{ dna[name] }}</textarea>
+        <span class="help-block">
+          <ul>
+            {% for note in feedback[name] %}
+            <li>{{ note }}</li>
+            {% endfor %}
+          </ul>
+        </span>
+      </div>
+      {%- endmacro %}
+
+      <div class="panel-body">
+          {{ geneinput('JCVI-G1', genes['JCVI-G1']) }}
+          {{ geneinput('JCVI-G2', genes['JCVI-G2']) }}
+          {{ geneinput('JCVI-GU', genes['JCVI-GU']) }}
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><em>E. coli</em> Genes</h3>
+      </div>
+
+      <div class="panel-body">
+        {{ geneinput('ECOLI-G1', 'E. coli analog of ' ~ genes['JCVI-G1']) }}
+        {{ geneinput('ECOLI-G2', 'E. coli analog of ' ~ genes['JCVI-G1']) }}
+        {{ geneinput('ECOLI-GU', 'E. coli analog of ' ~ genes['JCVI-G1']) }}
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Extra Credit Genes</h3>
+      </div>
+
+      <div class="panel-body">
+        {{ geneinput('EC-G1', 'Extra Credit 1') }}
+        {{ geneinput('EC-G2', 'Extra Credit 2') }}
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-default">Submit sequences</button>
+
+  </div>
+  </form>
+</div>
+
+{% endblock %}

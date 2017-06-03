@@ -6,4 +6,18 @@
 
 
 {% block main %}
+<div class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <p class="lead">Welcome to the BIOE / ENGR 80 DNA submisson and validation tool. Please enter your SUID into the box below in order to begin.</p>
+
+    <form class="form-inline" action="/dna" method="get">
+      <div class="form-group">
+        <label for="suid">SUID</label>
+        <input type="text" class="form-control" id="suid" name="suid" placeholder="jstanford">
+      </div>
+
+      <button type="submit" class="btn btn-default">Go</button>
+    </form>
+  </div>
+</div>
 {% endblock %}
