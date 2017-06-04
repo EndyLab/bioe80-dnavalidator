@@ -92,7 +92,6 @@ def validate_gene(dna, aa):
 
     # Clean up DNA sequence input
     dna = re.sub('[^A-Z]+', '', dna.strip().upper())
-    aa = re.sub('[^A-Z]+', '', aa.strip().upper())
 
     if dna is None or dna == "":
         return True, []
@@ -118,6 +117,8 @@ def validate_gene(dna, aa):
         prot += "*"
 
     if aa is not None:
+        aa = re.sub('[^A-Z]+', '', aa.strip().upper())
+
         if not prot[:-1] == aa:
             if prot_myco[:-1] == aa:
                 notes.append("Not codon-optimized for E. coli.")
