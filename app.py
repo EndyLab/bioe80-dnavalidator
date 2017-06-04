@@ -92,6 +92,7 @@ def validate_gene(dna, aa):
 
     # Clean up DNA sequence input
     dna = re.sub('[^A-Z]+', '', dna.strip().upper())
+    aa = re.sub('[^A-Z]+', '', aa.strip.upper())
 
     if dna is None or dna == "":
         return True, []
