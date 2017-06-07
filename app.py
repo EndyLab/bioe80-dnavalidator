@@ -99,6 +99,9 @@ def validate_gene(dna, aa):
     if len(dna) % 3 != 0:
         notes.append("Sequence doesn't obey triplet code (length not a multiple of three).")
 
+    if re.search('[^ATGC]', dna):
+        notes.append("Sequence contains invalid characters (must be A, T, G, C).")
+
     if not dna[:3] == "ATG":
         notes.append("No Start")
 
